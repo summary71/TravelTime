@@ -1,0 +1,6 @@
+cat test.log test.log.derived > test.log.combined
+python3 lossvalue.py test.log.combined -i 0 -o lossvalue_derived.pdf
+python3 lossvalue.py test.log.combined -i 1 -o lossvalue_inno.pdf
+python3 analysis.py
+bash cmd.route
+sh cmd.anal

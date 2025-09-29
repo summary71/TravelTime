@@ -1,0 +1,82 @@
+#!/bin/sh
+
+dd="VRPdataSmall"
+nepoch=5
+
+dd="VRPdata"
+nepoch=5000
+
+
+# for derive input test
+inpnorm=1
+#if true; then
+if false; then
+for mt in 1 3 5 7 9 ; do
+	echo ""; python3 train_reg.py -mt $mt -dd $dd -in $inpnorm
+	echo ""; python3 test_reg.py -mt $mt -dd $dd -in $inpnorm
+	echo ""; python3 train_gbr.py -mt $mt -dd $dd -in $inpnorm
+	echo ""; python3 test_gbr.py -mt $mt -dd $dd -in $inpnorm
+done
+fi
+
+f1=results/3_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+f2=results/3_0_0_${dd}_gbr_all_in1_evaluation_results_testdata.csv
+f3=results/3_0_0_${dd}_linreg_all_in1_evaluation_results_testdata.csv
+
+python performance_graph.py \
+  --pair '{"label":"DL type=3","file":"'"$f1"'"}' \
+  --pair '{"label":"GBT (500 trees, depth=3)","file":"'"$f2"'"}' \
+  --pair '{"label":"Linear Regression (coords+time)","file":"'"$f3"'"}' \
+  --out_prefix "comparison_testdata" \
+  --title "Performance Comparison"
+
+f1=results/3_0_0_${dd}_mse_in1_evaluation_results_unseen_data.csv
+f2=results/3_0_0_${dd}_gbr_all_in1_evaluation_results_unseen_data.csv
+f3=results/3_0_0_${dd}_linreg_all_in1_evaluation_results_unseen_data.csv
+
+python performance_graph.py \
+  --pair '{"label":"DL type=3","file":"'"$f1"'"}' \
+  --pair '{"label":"GBT (500 trees, depth=3)","file":"'"$f2"'"}' \
+  --pair '{"label":"Linear Regression (coords+time)","file":"'"$f3"'"}' \
+  --out_prefix "comparison_unseen_data" \
+  --title "Performance Comparison (Unseen)"
+
+f1=results/1_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+f2=results/1_0_0_${dd}_gbr_all_in1_evaluation_results_testdata.csv
+f3=results/1_0_0_${dd}_linreg_all_in1_evaluation_results_testdata.csv
+
+python performance_graph.py \
+  --pair '{"label":"DL type=3","file":"'"$f1"'"}' \
+  --pair '{"label":"GBT (500 trees, depth=3)","file":"'"$f2"'"}' \
+  --pair '{"label":"Linear Regression (coords+time)","file":"'"$f3"'"}' \
+  --out_prefix "comparison_testdata_org" \
+  --title "Performance Comparison"
+
+f1=results/1_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+f2=results/1_0_0_${dd}_gbr_all_in1_evaluation_results_testdata.csv
+f3=results/1_0_0_${dd}_linreg_all_in1_evaluation_results_testdata.csv
+f4=results/3_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+f5=results/3_0_0_${dd}_gbr_all_in1_evaluation_results_testdata.csv
+f6=results/3_0_0_${dd}_linreg_all_in1_evaluation_results_testdata.csv
+f7=results/5_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+f8=results/5_0_0_${dd}_gbr_all_in1_evaluation_results_testdata.csv
+f9=results/5_0_0_${dd}_linreg_all_in1_evaluation_results_testdata.csv
+f10=results/7_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+f11=results/7_0_0_${dd}_gbr_all_in1_evaluation_results_testdata.csv
+f12=results/7_0_0_${dd}_linreg_all_in1_evaluation_results_testdata.csv
+
+python performance_graph.py \
+  --pair '{"label":"DNN input conf 1","file":"'"$f1"'"}' \
+  --pair '{"label":"DNN input conf 3","file":"'"$f4"'"}' \
+  --pair '{"label":"DNN input conf 5","file":"'"$f7"'"}' \
+  --pair '{"label":"DNN input conf 7","file":"'"$f10"'"}' \
+  --pair '{"label":"GBT input conf 1","file":"'"$f2"'"}' \
+  --pair '{"label":"GBT input conf 3","file":"'"$f5"'"}' \
+  --pair '{"label":"GBT input conf 5","file":"'"$f8"'"}' \
+  --pair '{"label":"GBT input conf 7","file":"'"$f11"'"}' \
+  --pair '{"label":"SLR input conf 1","file":"'"$f3"'"}' \
+  --pair '{"label":"SLR input conf 3","file":"'"$f6"'"}' \
+  --pair '{"label":"SLR input conf 5","file":"'"$f9"'"}' \
+  --pair '{"label":"SLR input conf 7","file":"'"$f12"'"}' \
+  --out_prefix "comparison_testdata_all" 
+ # --title "Performance Comparison"

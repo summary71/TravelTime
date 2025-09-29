@@ -1,0 +1,10 @@
+#!/bin/sh
+
+dd="VRPdataSmall"
+rcnt=100
+
+dd="VRPdata"
+rcnt=1000
+python3 route_anal.py -dd $dd -routecnt $rcnt -in 1
+
+

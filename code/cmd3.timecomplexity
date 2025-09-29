@@ -1,0 +1,8 @@
+#!/bin/sh
+
+dd="VRPdataSmall"
+dd="VRPdata"
+
+python3 timecomplexity.py -dd $dd  -in 1
+
+

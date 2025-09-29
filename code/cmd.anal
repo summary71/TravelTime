@@ -1,0 +1,161 @@
+dd=VRPdataSmall
+
+dd=VRPdata
+
+# derived input features 
+f1=results/1_0_0_${dd}_mse_in0_evaluation_results_testdata.csv
+n1="input conf 1"
+f2=results/3_0_0_${dd}_mse_in0_evaluation_results_testdata.csv
+n2="input conf 3"
+f3=results/5_0_0_${dd}_mse_in0_evaluation_results_testdata.csv
+n3="input conf 5"
+f4=results/9_0_0_${dd}_mse_in0_evaluation_results_testdata.csv
+n4="input conf 9"
+f5=results/1_1_0_${dd}_mse_in0_evaluation_results_testdata.csv
+n5="input conf 1 (Large Size)"
+filename=graphs/${dd}_deriveddiff.pdf
+python3 relerrcompare.py $f1 "$n1" $f2 "$n2" $f3 "$n3" $f4 "$n4" $f5 "$n5" --output $filename
+
+# input normalization
+f1=results/1_0_0_${dd}_mse_in0_evaluation_results_testdata.csv
+n1="w/o InNo, input conf 1"
+f2=results/1_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+n2="w/ InNo, input conf 1"
+f3=results/7_0_0_${dd}_mse_in0_evaluation_results_testdata.csv
+n3="w/o InNo, input conf 7"
+f4=results/7_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+n4="w/ InNo, input conf 7"
+filename=graphs/${dd}_inpnormdiff.pdf
+python3 relerrcompare.py $f1 "$n1" $f2 "$n2" $f3 "$n3" $f4 "$n4" --output $filename
+
+# geodesic model type
+f1=results/1_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+n1="coord (input conf 1)"
+f2=results/2_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+n2="geodesic (input conf 2)"
+f3=results/3_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+n3="coord+geodesic (input conf 3)"
+filename=graphs/${dd}_model3diff.pdf
+python3 relerrcompare.py $f1 "$n1" $f2 "$n2" $f3 "$n3" --output $filename --xmax 0.4
+
+# Manhattan model type
+f1=results/1_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+n1="coord (input conf 1)"
+f2=results/4_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+n2="Manhattan (input conf 4)"
+f3=results/5_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+n3="coord+Manhattan (input conf 5)"
+filename=graphs/${dd}_model5diff.pdf
+python3 relerrcompare.py $f1 "$n1" $f2 "$n2" $f3 "$n3" --output $filename --xmax 0.4
+
+# second order polynomial model type
+f1=results/1_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+n1="coord (input conf 1)"
+f2=results/8_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+n2="second order (input conf 8)"
+f3=results/9_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+n3="coord+second order (input conf 9)"
+filename=graphs/${dd}_model9diff.pdf
+python3 relerrcompare.py $f1 "$n1" $f2 "$n2" $f3 "$n3" --output $filename 
+
+
+# Batch Normalization
+# Model Size
+f1=results/7_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+n1="No BN, Small (64, 128, 64)"
+f2=results/7_0_1_${dd}_mse_in1_evaluation_results_testdata.csv
+n2="InNo, BN, Small (64, 128, 64)"
+f3=results/7_1_0_${dd}_mse_in1_evaluation_results_testdata.csv
+n3="No BN, Large (128, 256, 128)"
+f4=results/7_1_1_${dd}_mse_in1_evaluation_results_testdata.csv
+n4="BN, Large (128, 256, 128)"
+filename=graphs/${dd}_mt7_bnsizediff.pdf
+python3 relerrcompare.py $f1 "$n1" $f2 "$n2" $f3 "$n3" $f4 "$n4" --output $filename --xmax 0.4
+
+
+f1=results/7_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+n1="All Pairs"
+f2=results/"7_0_0_${dd}_mse_in1_evaluation_results_seen_[0, 5) km.csv"
+n2="[0 ~ 5)km"
+f3=results/"7_0_0_${dd}_mse_in1_evaluation_results_seen_[5, 10) km.csv"
+n3="[5 ~ 10)km"
+f4=results/"7_0_0_${dd}_mse_in1_evaluation_results_seen_[10, 20) km.csv"
+n4="[10 ~ 20)km"
+f5=results/"7_0_0_${dd}_mse_in1_evaluation_results_seen_[20, ∞) km.csv"
+n5="[20 ~ ∞)km"
+filename=graphs/${dd}_seen_distdiff.pdf
+python3 relerrcompare.py "$f1" "$n1" "$f2" "$n2" "$f3" "$n3" "$f4" "$n4" "$f5" "$n5" --output $filename
+
+f1=results/7_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+n1="All Pairs"
+f2=results/"7_0_0_${dd}_mse_in1_evaluation_results_[0, 5) km.csv"
+n2="[0 ~ 5)km"
+f3=results/"7_0_0_${dd}_mse_in1_evaluation_results_[5, 10) km.csv"
+n3="[5 ~ 10)km"
+f4=results/"7_0_0_${dd}_mse_in1_evaluation_results_[10, 20) km.csv"
+n4="[10 ~ 20)km"
+f5=results/"7_0_0_${dd}_mse_in1_evaluation_results_[20, ∞) km.csv"
+n5="[20 ~ ∞)km"
+f6=results/7_0_0_${dd}_mse_in1_evaluation_results_unseen_data.csv
+n6="Unseen All Pairs"
+filename=graphs/${dd}_unseen_distdiff.pdf
+python3 relerrcompare.py "$f1" "$n1" "$f2" "$n2" "$f3" "$n3" "$f4" "$n4" "$f5" "$n5" "$f6" "$n6" --output $filename
+
+f1=results/15_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+n1="MSELoss, All"
+f2=results/15_0_0_${dd}_mae_in1_evaluation_results_testdata.csv
+n2="SmoothL1Loss, All"
+f3=results/15_0_0_${dd}_mse_in1_evaluation_results_unseen_data.csv
+n3="MSELoss, Unseen"
+f4=results/15_0_0_${dd}_mae_in1_evaluation_results_unseen_data.csv
+n4="SmoothL1Loss, Unseen"
+filename=graphs/${dd}_lossdiff_mt15.pdf
+python3 relerrcompare.py $f1 "$n1" $f2 "$n2" $f3 "$n3" $f4 "$n4" --output $filename
+
+f1=results/7_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+n1="MSELoss, All"
+f2=results/7_0_0_${dd}_mae_in1_evaluation_results_testdata.csv
+n2="SmoothL1Loss, All"
+f3=results/7_0_0_${dd}_mse_in1_evaluation_results_unseen_data.csv
+n3="MSELoss, Unseen"
+f4=results/7_0_0_${dd}_mae_in1_evaluation_results_unseen_data.csv
+n4="SmoothL1Loss, Unseen"
+filename=graphs/${dd}_lossdiff_mt7.pdf
+python3 relerrcompare.py $f1 "$n1" $f2 "$n2" $f3 "$n3" $f4 "$n4" --output $filename
+
+f1=results/"3_0_0_${dd}_mse_in1_evaluation_results_[0, 5) km.csv"
+n1="Geodesic (input conf 3), [0 ~ 5)km"
+f2=results/"3_0_0_${dd}_mse_in1_evaluation_results_[20, ∞) km.csv"
+n2="Geodesic (input conf 3), [20 ~ ∞)km"
+f3=results/"5_0_0_${dd}_mse_in1_evaluation_results_[0, 5) km.csv"
+n3="Manhattan (input conf 5), [0 ~ 5)km"
+f4=results/"5_0_0_${dd}_mse_in1_evaluation_results_[20, ∞) km.csv"
+n4="Manhattan (input conf 5), [20 ~ ∞)km"
+#f5=results/"9_0_0_${dd}_mse_in1_evaluation_results_[0, 5) km.csv"
+#n5="2nd Order, [0 ~ 5)km"
+#f6=results/"9_0_0_${dd}_mse_in1_evaluation_results_[20, ∞) km.csv"
+#n6="2nd Order, [20 ~ ∞)km"
+filename=graphs/${dd}_groupvsinput.pdf
+#python3 relerrcompare.py "$f1" "$n1" "$f2" "$n2" "$f3" "$n3" "$f4" "$n4" "$f5" "$n5" "$f6" "$n6" --output $filename
+python3 relerrcompare.py "$f1" "$n1" "$f2" "$n2" "$f3" "$n3" "$f4" "$n4" --output $filename
+
+f1=results/7_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+n1="Small, All"
+f2=results/7_1_0_${dd}_mse_in1_evaluation_results_testdata.csv
+n2="Large, All"
+f3=results/7_0_0_${dd}_mse_in1_evaluation_results_unseen_data.csv
+n3="Small, Unseen"
+f4=results/7_1_0_${dd}_mse_in1_evaluation_results_unseen_data.csv
+n4="Large, Unseen"
+filename=graphs/${dd}_mt7_all_unseen_sizediff.pdf
+python3 relerrcompare.py $f1 "$n1" $f2 "$n2" $f3 "$n3" $f4 "$n4" --output $filename
+
+
+f1=results/7_0_0_${dd}_mse_in1_evaluation_results_testdata.csv
+n1="OD Pair(All)"
+f2=results/7_0_0_${dd}_mse_in1_evaluation_results_unseen_data.csv
+n2="OD Pair(Unseen)"
+f3=results/7_0_0_${dd}_mse_in1_route_analysis_summary.csv
+n3="Routes"
+filename=graphs/${dd}_routevsod.pdf
+python3 relerrcompare.py $f1 "$n1" $f2 "$n2" $f3 "$n3" --output $filename

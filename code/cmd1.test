@@ -1,0 +1,74 @@
+#!/bin/sh
+
+dd="VRPdataSmall"
+nepoch=5
+
+dd="VRPdata"
+nepoch=5000
+
+
+python3 prepare_split_data.py -dd $dd -in 0
+python3 prepare_split_data.py -dd $dd -in 1
+
+#python3 train_v3.py -ne $nepoch -dd $dd -in $inpnorm 
+#python3 test_v3.py -dd $dd -in $inpnorm 
+#exit
+
+# for derive input test
+inpnorm=0
+for mt in 3 5 9 ; do
+	echo ""; python3 train_v3.py -ne $nepoch -mt $mt -dd $dd -in $inpnorm
+	echo ""; python3 test_v3.py -mt $mt -dd $dd -in $inpnorm
+done
+
+ms=1
+mt=1
+inpnorm=0
+echo ""; python3 train_v3.py -ne $nepoch -dd $dd  -mt $mt -ms $ms -in $inpnorm
+echo ""; python3 test_v3.py -dd $dd -ms $ms  -mt $mt -in $inpnorm
+
+# end for derive input test
+exit
+
+# effect of input normalization
+for mt in 1 7 15 ; do
+    for inpnorm in 0 1 ; do
+	echo ""; python3 train_v3.py -ne $nepoch -mt $mt -dd $dd -in $inpnorm
+	echo ""; python3 test_v3.py -mt $mt -dd $dd -in $inpnorm
+    done
+done
+
+# from now on, only use inpnorm, with model type 7
+inpnorm=1
+
+# effect of model type
+for mt in 2 3 4 5 6   8 9 10 11 12 13 14   ; do
+	echo ""; python3 train_v3.py -ne $nepoch -mt $mt -dd $dd -in $inpnorm
+	echo ""; python3 test_v3.py -mt $mt -dd $dd -in $inpnorm
+done
+
+# batch normalization & model size, with model type 7
+ms=0
+bn=1
+echo ""; python3 train_v3.py -ne $nepoch -bn $bn -dd $dd -ms $ms -in $inpnorm
+echo ""; python3 test_v3.py -bn $bn -dd $dd -ms $ms -in $inpnorm
+ms=1
+for bn in 0 1; do
+	echo ""; python3 train_v3.py -ne $nepoch -bn $bn -dd $dd -ms $ms -in $inpnorm
+	echo ""; python3 test_v3.py -bn $bn -dd $dd -ms $ms -in $inpnorm
+done
+
+
+# effect of loss type
+# "mse", we already finished
+losstype="mae"
+for mt in 1 7 15; do
+    echo ""; python3 train_v3.py -ne $nepoch -mt $mt -dd $dd -in $inpnorm -loss $losstype
+    echo ""; python3 test_v3.py -mt $mt -dd $dd -in $inpnorm -loss $losstype
+done
+
+
+
+
+
+
