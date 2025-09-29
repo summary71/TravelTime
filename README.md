@@ -1,19 +1,31 @@
 # TravelTime
-Deep learning based travel time estimation
 
-First, unzip VRPdata.zip into a directory called VRPdata.
+Deep learning–based travel time estimation.
 
-Then, move to code
+## Dataset Setup
+1. **Unzip the dataset**  
+   Extract the provided `VRPdata.zip` into a directory named `VRPdata`:
 
-mv code
+   ```bash
+   unzip VRPdata.zip -d VRPdata
+   ```
 
-Call the following bash script one at a time. 
+## Running the Code
+2. **Move to the code directory**  
+   Navigate into the `code` folder:
 
-bash cmd1.test
+   ```bash
+   cd code
+   ```
 
-bash cmd2.graph
+3. **Run the experiment scripts**  
+   Execute the following bash scripts **one at a time**:
 
-bash cmd3.timecomplexity
+   ```bash
+   bash cmd1.test
+   bash cmd2.graph
+   bash cmd3.timecomplexity
+   bash cmd4.rev1
+   ```
 
-bash cmd4.rev1
-
+Each script performs a specific experiment or analysis step. Review the script comments for details on required dependencies or expected outputs.
