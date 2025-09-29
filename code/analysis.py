@@ -259,7 +259,12 @@ if geodesic_vs_time:
             x_min, x_max = plt.xlim()
             x_fit = np.linspace(x_min, x_max, 100)
             y_fit = slope * x_fit + intercept
-            plt.plot(x_fit, y_fit, color='black', linewidth=2, label=f"Linear fit: y={slope:.1f}x+{intercept:.0f}")
+            # Compute coefficient of determination (R²)
+            y_pred = slope * dists + intercept
+            ss_res = np.sum((times - y_pred) ** 2)
+            ss_tot = np.sum((times - np.mean(times)) ** 2)
+            r2 = 1 - ss_res / ss_tot if ss_tot != 0 else 0.0
+            plt.plot(x_fit, y_fit, color='black', linewidth=2, label=f"Linear fit: y={slope:.1f}x+{intercept:.0f} (R²={r2:.3f})")
             plt.legend()
         except Exception:
             pass
@@ -294,7 +299,12 @@ if manhattan_vs_time:
             x_min, x_max = plt.xlim()
             x_fit = np.linspace(x_min, x_max, 100)
             y_fit = slope * x_fit + intercept
-            plt.plot(x_fit, y_fit, color='black', linewidth=2, label=f"Linear fit: y={slope:.1f}x+{intercept:.0f}")
+            # Compute coefficient of determination (R²)
+            y_pred = slope * manhattan_dists + intercept
+            ss_res = np.sum((times - y_pred) ** 2)
+            ss_tot = np.sum((times - np.mean(times)) ** 2)
+            r2 = 1 - ss_res / ss_tot if ss_tot != 0 else 0.0
+            plt.plot(x_fit, y_fit, color='black', linewidth=2, label=f"Linear fit: y={slope:.1f}x+{intercept:.0f} (R²={r2:.3f})")
             plt.legend()
         except Exception:
             pass
